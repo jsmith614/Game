@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game2017", "Game2017\Game20
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine2017", "GameEngine2017\GameEngine2017.csproj", "{B7795D94-F24C-42CA-9E24-93BBFC028847}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game2017MapEditor", "Game2017MapEditor\Game2017MapEditor.csproj", "{7C4C4EA2-C179-4975-BF4E-F2AD11B9EB5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B7795D94-F24C-42CA-9E24-93BBFC028847}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7795D94-F24C-42CA-9E24-93BBFC028847}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7795D94-F24C-42CA-9E24-93BBFC028847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C4C4EA2-C179-4975-BF4E-F2AD11B9EB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C4C4EA2-C179-4975-BF4E-F2AD11B9EB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C4C4EA2-C179-4975-BF4E-F2AD11B9EB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C4C4EA2-C179-4975-BF4E-F2AD11B9EB5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

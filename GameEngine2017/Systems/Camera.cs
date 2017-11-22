@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameEngine2017.Systems
 {
     public class Camera
     {
-        private const float _scrollSpeed = 0.02f;
+        private const float _scrollSpeed = 0.10f;
         private const float _rotateSpeed = 1.00f;
         private const float _moveSpeed = 100.00f;
         private static Camera _instance;
@@ -66,6 +61,7 @@ namespace GameEngine2017.Systems
             Window = window;
             Width = window.ClientBounds.Width;
             Height = window.ClientBounds.Height;
+            Position = new Vector2(0, 0);
         }
 
         public void Unload()
