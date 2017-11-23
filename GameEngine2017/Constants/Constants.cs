@@ -25,7 +25,7 @@ namespace GameEngine2017.Constants
             }
         }
         
-        public float DefaultMessageLifeTime = 2000.00f;
+        public float DefaultMessageLifeTime = 2.00f;
         public float Gravity = 25.0f;
 
         public void Load()

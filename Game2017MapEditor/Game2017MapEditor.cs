@@ -4,15 +4,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Game2017MapEditor
 {
+    [Serializable]
     public enum ShapeType
     {
         Circle,
         Rectangle
     }
 
+    [Serializable]
     public class Shape
     {
         public int ID { get; set; }
@@ -28,6 +34,7 @@ namespace Game2017MapEditor
         public ShapeType Type { get; set; }
     }
 
+    [Serializable]
     public class Handle
     {
         public Shape Shape { get; set; }
@@ -74,17 +81,17 @@ namespace Game2017MapEditor
         ShapeType currentShapeType;
         int currentID;
 
-        const float _defaultCircleRadius = 50f;
-        const float _defaultRectHeight = 50f;
-        const float _defaultRectWidth = 50f;
+        float _defaultCircleRadius = 50f;
+        float _defaultRectHeight = 50f;
+        float _defaultRectWidth = 50f;
 
         const float _maxCircleRadius = 100f;
         const float _maxRectHeight = 200f;
         const float _maxRectWidth = 200f;
 
-        const float _minCircleRadius = 10f;
-        const float _minRectHeight = 20f;
-        const float _minRectWidth = 20f;
+        const float _minCircleRadius = 1f;
+        const float _minRectHeight = 1f;
+        const float _minRectWidth = 1f;
 
         const float _handleRadius = 5f;
 
@@ -102,8 +109,6 @@ namespace Game2017MapEditor
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
             IsMouseVisible = true;
         }
@@ -123,13 +128,16 @@ namespace Game2017MapEditor
             InputManager.Instance.Load(spriteBatch);
 
 
-            _map = Content.Load<Texture2D>("Map1");
+            //_map = Content.Load<Texture2D>("Map1");
             _circle = Content.Load<Texture2D>("circle3");
             _square = Content.Load<Texture2D>("rect4");
             _handle = Content.Load<Texture2D>("circle2");
 
+            if(_map != null)
+            {
+                Camera.Instance.Position = new Vector2(_map.Width * 0.5f, _map.Height * 0.5f);
+            }
             _cameraSpeed = 300f;
-            Camera.Instance.Position = new Vector2(_map.Width * 0.5f, _map.Height * 0.5f);
             Shapes = new List<Shape>();
             Handles = new List<Handle>();
 
@@ -171,11 +179,20 @@ namespace Game2017MapEditor
                 Exit();
             }
 
-            if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.D1))
+            if (InputManager.Instance.CheckKeyPressed(Keys.F1))
+            {
+                Export();
+            }
+            else if (InputManager.Instance.CheckKeyPressed(Keys.F2))
+            {
+                Import();
+            }
+
+            if (InputManager.Instance.CheckKeyPressed(Keys.D1))
             {
                 currentShapeType = ShapeType.Circle;
             }
-            else if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.D2))
+            else if (InputManager.Instance.CheckKeyPressed(Keys.D2))
             {
                 currentShapeType = ShapeType.Rectangle;
             }
@@ -217,7 +234,9 @@ namespace Game2017MapEditor
             {
                 posX += (_cameraSpeed * _deltaTime);
             }
-            
+
+            Camera.Instance.Position = new Vector2(posX, posY);
+
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
@@ -288,6 +307,8 @@ namespace Game2017MapEditor
                 if(draggedHandle.Shape.Type == ShapeType.Circle)
                 {
                     draggedHandle.Shape.Radius += (_mPos.X - _prevmPos.X);
+                    _defaultCircleRadius = draggedHandle.Shape.Radius;
+
                     if (draggedHandle.Shape.Radius < _minCircleRadius)
                     {
                         draggedHandle.Shape.Radius = _minCircleRadius;
@@ -301,6 +322,9 @@ namespace Game2017MapEditor
                 {
                     draggedHandle.Shape.Width += (_mPos.X - _prevmPos.X);
                     draggedHandle.Shape.Height += (_mPos.Y - _prevmPos.Y);
+                    _defaultRectHeight = draggedHandle.Shape.Height;
+                    _defaultRectWidth = draggedHandle.Shape.Width;
+
                     if (draggedHandle.Shape.Height > _maxRectHeight)
                     {
                         draggedHandle.Shape.Height = _maxRectHeight;
@@ -325,8 +349,6 @@ namespace Game2017MapEditor
                                                     draggedShape.Position.Y + (_mPos.Y - _prevmPos.Y));
             }
 
-            Camera.Instance.Position = new Vector2(posX, posY);
-
             Camera.Instance.Update(_deltaTime);
 
             MessageHandler.Instance.UpdateMessages(_deltaTime);
@@ -345,9 +367,13 @@ namespace Game2017MapEditor
 
             spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, blendState: BlendState.AlphaBlend, transformMatrix: Camera.Instance.TranslationMatrix);
 
-            spriteBatch.Draw(texture: _map, position: new Vector2(0, 0));
+            if (_map != null)
+            {
+                spriteBatch.Draw(texture: _map, position: new Vector2(0, 0));
 
-            foreach(var shape in Shapes)
+            }
+
+            foreach (var shape in Shapes)
             {
                 if (shape.Type == ShapeType.Circle)
                 {
@@ -412,6 +438,120 @@ namespace Game2017MapEditor
             }
 
             return false;
+        }
+
+        [Serializable]
+        public class IOObject
+        {
+            public int CurrentID { get; set; }
+
+            public string MapTextureName { get; set; }
+
+            //public List<Shape> Shapes { get; set; }
+
+            public List<Handle> Handles { get; set; }
+        }
+
+        const string exportDirectory = "Exports";
+        const string exportFilePath = "Exports/map.xml";
+        const string tempexportFilePath = "Exports/map_temp.xml";
+        const string backupexportFilePath = "Exports/map_backup.xml";
+
+        private void Export()
+        {
+            MessageHandler.Instance.AddMessage("Export Begin");
+
+            var ioObject = new IOObject();
+            //ioObject.Shapes = Shapes;
+            ioObject.Handles = Handles;
+            ioObject.CurrentID = currentID;
+            ioObject.MapTextureName = _map.Name;
+
+
+            System.IO.Directory.CreateDirectory(exportDirectory);
+            if (File.Exists(exportFilePath) == false)
+            {
+                File.Create(exportFilePath);
+            }
+
+            var fileStream = new FileStream(tempexportFilePath, FileMode.OpenOrCreate);
+
+            var stream = SerializeToStream(ioObject);
+
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.CopyTo(fileStream);
+
+            fileStream.Close();
+            
+            System.IO.File.Replace(tempexportFilePath, exportFilePath, backupexportFilePath, true);
+
+            //System.IO.File.Delete("Exports/map.bin");
+            
+            MessageHandler.Instance.AddMessage("Export Complete");
+        }
+
+        private void Import()
+        {
+            MessageHandler.Instance.AddMessage("Import Begin");
+
+            System.IO.Directory.CreateDirectory(exportDirectory);
+            if (File.Exists(exportFilePath) == false)
+            {
+                File.Create(exportFilePath);
+            }
+
+            var fileStream = new FileStream(exportFilePath, FileMode.OpenOrCreate);
+
+            var stream = new MemoryStream();
+
+            fileStream.Seek(0, SeekOrigin.Begin);
+            fileStream.CopyTo(stream);
+
+            fileStream.Close();
+
+            if(stream.Length > 0)
+            {
+                var ioObject = DeserializeFromStream(stream);
+
+                //Shapes = ioObject.Shapes;
+                Shapes = new List<Shape>();
+                Handles = ioObject.Handles;
+                foreach(var handle in Handles)
+                {
+                    Shapes.Add(handle.Shape);
+                }
+                //foreach(var handle in Handles)
+                //{
+                //    handle.Shape = Shapes.First(s => s.ID == handle.Shape.ID);
+                //}
+                currentID = ioObject.CurrentID;
+                _map = Content.Load<Texture2D>(ioObject.MapTextureName);
+                Camera.Instance.Position = new Vector2(_map.Width * 0.5f, _map.Height * 0.5f);
+
+                MessageHandler.Instance.AddSuccess("Import Complete");
+            }
+            else
+            {
+                MessageHandler.Instance.AddError("Import Fail!");
+            }
+        }
+
+        public static MemoryStream SerializeToStream(IOObject ioobject)
+        {
+            //BinaryFormatter
+              // var ser = new DataContractSerializer();
+            MemoryStream stream = new MemoryStream();
+            var formatter = new DataContractSerializer(typeof(IOObject));
+            formatter.WriteObject(stream, ioobject);
+            return stream;
+        }
+
+        public static IOObject DeserializeFromStream(MemoryStream stream)
+        {
+            var formatter = new DataContractSerializer(typeof(IOObject));
+            stream.Seek(0, SeekOrigin.Begin);
+            var ioobject = formatter.ReadObject(stream) as IOObject;
+            return ioobject;
         }
     }
 }

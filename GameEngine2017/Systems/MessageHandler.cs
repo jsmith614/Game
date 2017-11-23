@@ -83,7 +83,9 @@ namespace GameEngine2017.Systems
 
         public void Draw()
         {
-            var position = new Vector2(5, 5);
+            var position = new Vector2(5, 5); // probably change this or have it passed in
+            position = Vector2.Transform(position, Matrix.Invert(Camera.Instance.TranslationMatrix));
+
             _messages.ForEach(m =>
             {
 
