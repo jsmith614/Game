@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameEngine2017.Systems
+﻿
+namespace GameEngine2017
 {
     // TODO: something here. Probably getting rid of this. Will do stuff in texture manager instead. 
     public class AnimationManager

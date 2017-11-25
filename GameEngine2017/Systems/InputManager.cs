@@ -3,11 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class InputManager
     {
@@ -136,22 +133,22 @@ namespace GameEngine2017.Systems
 
                 // FPS
                 var fps = Convert.ToInt32(1 / gameTime.ElapsedGameTime.TotalSeconds);
-                _spriteBatch.DrawString(FontManager.Instance.GetFont(GameEngine2017.Constants.Font.Message), 
+                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, 
                     "FPS: " + fps.ToString(), 
                     new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top - 20), debugColor);
 
                 // Inpute Queue
-                _spriteBatch.DrawString(FontManager.Instance.GetFont(GameEngine2017.Constants.Font.Message), 
+                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, 
                     "Input: " + string.Join(" ", _inputQueue), 
                     new Vector2(gameWindow.ClientBounds.Right - 200, gameWindow.ClientBounds.Top), debugColor);
 
                 // Zoom Level
-                _spriteBatch.DrawString(FontManager.Instance.GetFont(GameEngine2017.Constants.Font.Message),
+                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont,
                     "Zoom: " + Camera.Instance.Zoom,
                     new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top + 20f), debugColor);
 
                 // Zoom Level
-                _spriteBatch.DrawString(FontManager.Instance.GetFont(GameEngine2017.Constants.Font.Message),
+                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont,
                     "DT: " + _deltaTime,
                     new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top + 40f), debugColor);
             }

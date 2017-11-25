@@ -1,4 +1,4 @@
-﻿namespace GameEngine2017.Systems
+﻿namespace GameEngine2017
 {
     public class CollisionHandler
     {

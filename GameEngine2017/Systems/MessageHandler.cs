@@ -1,13 +1,10 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Objects;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
 using System.Linq;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class MessageHandler
     {

@@ -1,10 +1,9 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Objects;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class MapManager
     {
@@ -25,14 +24,22 @@ namespace GameEngine2017.Systems
 
         public GameMap CurrentMap { get { return _currentMap; } }
 
+        public List<Shape> MapGeometry { get; set; }
+
         private MapManager()
         {
-            _currentMap = new GameMap(MapName.Default);
+
         }
 
         public void Load(SpriteBatch spriteBatch)
         {
             _spriteBatch = spriteBatch;
+            ImportGeometry();
+        }
+
+        private void ImportGeometry()
+        {
+            
         }
 
         public void Unload()
@@ -42,9 +49,17 @@ namespace GameEngine2017.Systems
 
         public void Draw(GameWindow window)
         {
-            var texture = TextureManager.Instance.GetTexture(_currentMap.Map);
+            if(_currentMap != null)
+            {
+                var texture = TextureManager.Instance.GetTexture(_currentMap.TextureName);
 
-            _spriteBatch.Draw(texture: texture, position: new Vector2(0, 0), scale: new Vector2(1.0f, 1.0f), layerDepth: 0);
+                _spriteBatch.Draw(texture: texture, position: new Vector2(0, 0), scale: new Vector2(1.0f, 1.0f), layerDepth: 0);
+            }
+        }
+
+        public void ChangeMap(string mapName)
+        {
+            _currentMap = new GameMap(mapName);
         }
     }
 }

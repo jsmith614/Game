@@ -1,6 +1,4 @@
-﻿using GameEngine2017.Interface;
-using GameEngine2017.Systems;
-using GameEngine2017.Constants;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
@@ -20,7 +18,7 @@ namespace Game2017.Animations
             _maxFramesX = 6;
             _maxFramesY = 1;
             _frameTime = 0.10f;
-            TextureName = TextureName.Player_Run;
+            TextureName = Constants.Player_Run;
             base.Initialize();
         }
 
@@ -33,22 +31,34 @@ namespace Game2017.Animations
 
         protected override IAnimation HandleInput(IGameObject gameObject)
         {
+            var velX = 0f;
+            var velY = 0f;
+
             if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.A)
                 && InputManager.Instance.KeyboardState.IsKeyDown(Keys.D) == false)
             {
                 InvertX = true;
-                gameObject.Velocity = new Vector2(-gameObject.MoveSpeed, gameObject.Velocity.Y);
+                velX = -gameObject.MoveSpeed;
             }
             else if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.A) == false
                 && InputManager.Instance.KeyboardState.IsKeyDown(Keys.D))
             {
                 InvertX = false;
-                gameObject.Velocity = new Vector2(gameObject.MoveSpeed, gameObject.Velocity.Y);
+                velX = gameObject.MoveSpeed;
             }
-            else
+
+            if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.S) == false
+                && InputManager.Instance.KeyboardState.IsKeyDown(Keys.W))
             {
-                gameObject.Velocity = new Vector2(0f, gameObject.Velocity.Y);
+                velY = -gameObject.MoveSpeed;
             }
+            else if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.W) == false
+                && InputManager.Instance.KeyboardState.IsKeyDown(Keys.S))
+            {
+                velY = gameObject.MoveSpeed;
+            }
+
+            gameObject.Velocity = new Vector2(velX, velY);
 
             if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.Space))
             {

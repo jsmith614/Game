@@ -1,10 +1,7 @@
-﻿using GameEngine2017.Interface;
-using GameEngine2017.Objects;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class GameObjectManager
     {

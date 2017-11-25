@@ -1,15 +1,15 @@
-﻿using GameEngine2017.Constants;
+﻿
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine2017.Objects
+namespace GameEngine2017
 {
     public class GameFont
     {
-        public Font Name { get; set; }
+        public string Name { get; set; }
 
         public SpriteFont SpriteFont { get; set; }
 
-        public GameFont(Font name, SpriteFont spriteFont)
+        public GameFont(string name, SpriteFont spriteFont)
         {
             Name = name;
             SpriteFont = spriteFont;

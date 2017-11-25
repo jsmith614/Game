@@ -1,13 +1,12 @@
-﻿using GameEngine2017.Constants;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine2017.Interface
+namespace GameEngine2017
 {
     public interface IGameObject
     {
-        ObjectType Type { get; set; }
+        string Type { get; }
         Vector2 Position { get; set; }
         Vector2 Velocity { get; set; }
         Vector2 Acceleration { get; set; }
@@ -25,6 +24,6 @@ namespace GameEngine2017.Interface
 
         void Draw(float deltaTime, SpriteBatch spriteBatch);
 
-        void HandleEvent(EventName name, IGameObject Source);
+        void HandleEvent(string name, IGameObject Source);
     }
 }

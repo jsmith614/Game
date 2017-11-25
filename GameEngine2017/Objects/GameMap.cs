@@ -1,14 +1,14 @@
-﻿using GameEngine2017.Constants;
-
-namespace GameEngine2017.Objects
+﻿
+namespace GameEngine2017
 {
     public class GameMap
     {
-        public MapName Map { get; set; }
+        public string TextureName { get; set; }
 
-        public GameMap(MapName map)
+
+        public GameMap(string textureName)
         {
-            Map = map;
+            TextureName = textureName;
         }
     }
 }

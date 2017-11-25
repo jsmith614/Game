@@ -1,14 +1,8 @@
-﻿using Game2017.Gameplay;
-using Game2017.Objects;
-using Game2017.Systems;
-using GameEngine2017.Constants;
-using GameEngine2017.Systems;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Game2017
 {
@@ -55,10 +49,10 @@ namespace Game2017
             try
             {
                 Config.Instance.Load();
+                FontManager.Instance.Load(Content, Utility.GetEnumNameList<GameFont>());
                 MessageHandler.Instance.Load(_spriteBatch);
                 TextureManager.Instance.Load(Content);
-                FontManager.Instance.Load(Content);
-                EventManager.Instance.Load();
+                EventManager.Instance.Load(Utility.GetEnumNameList<GameEvent>());
                 GameObjectManager.Instance.Load(_spriteBatch);
                 GameObjectFactory.Instance.Load(Content);
                 InputManager.Instance.Load(_spriteBatch);

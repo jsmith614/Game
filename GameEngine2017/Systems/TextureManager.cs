@@ -1,12 +1,9 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Objects;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class TextureManager
     {
@@ -41,28 +38,16 @@ namespace GameEngine2017.Systems
             _textures.Clear();
         }
 
-        public void LoadTexture(TextureName textureName)
+        public void LoadTexture(string textureName)
         {
             if(_textures.Select(t => t.Name).Contains(textureName) == false)
             {
-                var texture = _content.Load<Texture2D>(textureName.ToString());
+                var texture = _content.Load<Texture2D>(textureName);
                 _textures.Add(new GameTexture(textureName, texture));
             }
         }
 
-        internal Texture2D GetTexture(MapName map)
-        {
-            var textureName = GetTextureName(map);
-            return GetTexture(textureName);
-        }
-
-        public Texture2D GetTexture(ObjectType type)
-        {
-            var textureName = GetTextureName(type);
-            return GetTexture(textureName);
-        }
-
-        public Texture2D GetTexture(TextureName textureName)
+        public Texture2D GetTexture(string textureName)
         {
             var gameTexture = _textures.SingleOrDefault(t => t.Name == textureName);
             if (gameTexture == null)
@@ -71,29 +56,11 @@ namespace GameEngine2017.Systems
                 gameTexture = _textures.SingleOrDefault(t => t.Name == textureName);
                 if (gameTexture == null)
                 {
-                    MessageHandler.Instance.AddError("Texture {0} could not be loaded.", textureName.ToString());
+                    MessageHandler.Instance.AddError("Texture {0} could not be loaded.", textureName);
                     return null;
                 }
             }
             return gameTexture.Texture;
-        }
-
-        private TextureName GetTextureName(ObjectType type)
-        {
-            switch (type)
-            {
-                default:
-                    return TextureName.Penguins;
-            }
-        }
-
-        private TextureName GetTextureName(MapName map)
-        {
-            switch (map)
-            {
-                default:
-                    return TextureName.Map;
-            }
         }
     }
 }

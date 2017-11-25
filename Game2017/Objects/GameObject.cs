@@ -1,18 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine2017.Objects;
-using GameEngine2017.Systems;
-using GameEngine2017.Constants;
-using System;
-using Microsoft.Xna.Framework.Input;
-using GameEngine2017.Interface;
+using GameEngine2017;
 
-namespace Game2017.Objects
+namespace Game2017
 {
     public abstract class GameObject : IGameObject
     {
-        public ObjectType Type { get; set; }
+        private ObjectType _objectType;
+        public ObjectType ObjectType { get { return _objectType; } set { Type = value.ToString(); _objectType = value; } }
+        public string Type { get; private set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Acceleration { get; set; }
@@ -21,25 +18,27 @@ namespace Game2017.Objects
         public int Height { get; set; }
         public float Depth { get; set; }
         public float MoveSpeed { get; set; }
+        public string TextureName { get; set; }
 
         public IAnimation CurrentAnimation { get; set; }
 
-        public virtual void Initialize(Vector2 position, int width, int height)
+        public virtual void Initialize(Vector2 position, string textureName)
         {
-            Type = ObjectType.Object;
+            ObjectType = ObjectType.Object;
             Position = position;
             Velocity = new Vector2();
             Acceleration = new Vector2();// 0, Config.Instance.Gravity);
-            Width = width;
-            Height = height;
             Scale = new Vector2(1.0f, 1.0f);
             MoveSpeed = 100.0f;
+            Width = 25;
+            Height = 25;
             Depth = 1;
+            TextureName = textureName;
         }
 
         public virtual void Load(ContentManager content)
         {
-            EventManager.Instance.Subscribe(EventName.Test, this);
+            EventManager.Instance.Subscribe(GameEvent.Test.ToString(), this);
         }
 
         public virtual void Unload()
@@ -75,7 +74,7 @@ namespace Game2017.Objects
             var spriteEffects = SpriteEffects.None;
             if (CurrentAnimation == null)
             {
-                texture = TextureManager.Instance.GetTexture(Type);
+                texture = TextureManager.Instance.GetTexture(TextureName);
                 sourceRect = new Rectangle(0,0,texture.Width, texture.Height);
             }
             else
@@ -95,7 +94,7 @@ namespace Game2017.Objects
             spriteBatch.Draw(texture: texture, layerDepth: Depth, sourceRectangle: sourceRect, destinationRectangle: destRect, effects: spriteEffects);
         }
 
-        public virtual void HandleEvent(EventName name, IGameObject Source)
+        public virtual void HandleEvent(string eventName, IGameObject Source)
         {
             // Handle Event
         }

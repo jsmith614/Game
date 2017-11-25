@@ -1,11 +1,7 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Interface;
-using GameEngine2017.Objects;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class EventManager
     {
@@ -28,13 +24,16 @@ namespace GameEngine2017.Systems
             _events = new List<GameEvent>();
         }
         
-        public void Load()
+        public void Load(List<string> events)
         {
             ClearEvents();
-            foreach (var eventName in Enum.GetValues(typeof(EventName)).Cast<EventName>())
-            {
-                AddEvent(eventName);
-            }
+            foreach (var eventName in events)
+            AddEvent(eventName);
+
+            //foreach (var eventName in Enum.GetValues(typeof(EventName)).Cast<EventName>())
+            //{
+            //    AddEvent(eventName);
+            //}
         }
 
         public void Unload()
@@ -42,7 +41,7 @@ namespace GameEngine2017.Systems
             ClearEvents();
         }
 
-        public void AddEvent(EventName eventName)
+        public void AddEvent(string eventName)
         {
             if (_events.Any(e => e.Name == eventName) == false)
             {
@@ -54,7 +53,7 @@ namespace GameEngine2017.Systems
             }
         }
 
-        public void Subscribe(EventName eventName, IGameObject gameObject)
+        public void Subscribe(string eventName, IGameObject gameObject)
         {
             var e = _events.SingleOrDefault(ev => ev.Name == eventName);
             if(e != null)
@@ -74,7 +73,7 @@ namespace GameEngine2017.Systems
             }
         }
 
-        public void Unsubscribe(EventName eventName, IGameObject gameObject)
+        public void Unsubscribe(string eventName, IGameObject gameObject)
         {
             var e = _events.SingleOrDefault(ev => ev.Name == eventName);
             if (e != null)
@@ -99,7 +98,7 @@ namespace GameEngine2017.Systems
             _events.ForEach(e => e.Subscribers.Remove(gameObject));
         }
 
-        public void FireEvent(IGameObject source, EventName eventName)
+        public void FireEvent(IGameObject source, string eventName)
         {
             var e = _events.SingleOrDefault(ev => ev.Name == eventName);
             if(e != null)

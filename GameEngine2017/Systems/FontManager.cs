@@ -1,12 +1,10 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Objects;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class FontManager
     {
@@ -25,18 +23,20 @@ namespace GameEngine2017.Systems
             }
         }
 
+        public GameFont DefaultFont { get; set; }
+
         private FontManager()
         {
             _fonts = new List<GameFont>();
         }
 
-        public void Load(ContentManager content)
+        public void Load(ContentManager content, List<string> fonts)
         {
             _content = content;
             _fonts.Clear();
-            foreach (var font in Enum.GetValues(typeof(Font)).Cast<Font>())
+            foreach(var fontName in fonts)
             {
-                _fonts.Add(new GameFont(font, _content.Load<SpriteFont>(font.ToString())));
+                _fonts.Add(new GameFont(fontName, _content.Load<SpriteFont>(fontName)));
             }
         }
 
@@ -45,17 +45,17 @@ namespace GameEngine2017.Systems
             _fonts.Clear();
         }
 
-        public SpriteFont GetFont(Font font)
+        public SpriteFont GetFont(string fontName)
         {
             // do something here with fonts
-            var gameFont =  _fonts.SingleOrDefault(f => f.Name == font);
+            var gameFont =  _fonts.SingleOrDefault(f => f.Name == fontName);
             if(gameFont != null)
             {
                 return gameFont.SpriteFont;
             }
             else
             {
-                MessageHandler.Instance.AddError("Font not loaded: " + font.ToString());
+                MessageHandler.Instance.AddError("Font not loaded: " + fontName);
                 return _fonts.First().SpriteFont;
             }
         }

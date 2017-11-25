@@ -47,6 +47,8 @@
     <Compile Include="Animations\Player_Idle.cs" />
     <Compile Include="Animations\Player_Jump.cs" />
     <Compile Include="Animations\Player_Run.cs" />
+    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Constants\Enums.cs" />
     <Compile Include="Game2017.cs" />
     <Compile Include="Gameplay\MainGame.cs" />
     <Compile Include="Objects\GameObject.cs" />

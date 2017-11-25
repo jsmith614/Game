@@ -1,15 +1,13 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Interface;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace GameEngine2017.Objects
+namespace GameEngine2017
 {
     public class GameEvent
     {
-        public EventName Name { get; set; }
+        public string Name { get; set; }
         public List<IGameObject> Subscribers { get; set; }
         
-        public GameEvent(EventName name)
+        public GameEvent(string name)
         {
             Name = name;
             Subscribers = new List<IGameObject>();

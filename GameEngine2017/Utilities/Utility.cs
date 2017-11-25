@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GameEngine2017.Utilities
+namespace GameEngine2017
 {
     public static class Utility
     {
@@ -26,6 +24,11 @@ namespace GameEngine2017.Utilities
 
             int intDiff = Math.Abs(aInt - bInt);
             return intDiff <= (1 << maxDeltaBits);
+        }
+
+        public static List<string> GetEnumNameList<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>().Select(t => t.ToString()).ToList();
         }
     }
 }

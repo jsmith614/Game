@@ -1,6 +1,4 @@
-﻿using GameEngine2017.Interface;
-using GameEngine2017.Systems;
-using GameEngine2017.Constants;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework.Input;
 
 namespace Game2017.Animations
@@ -19,7 +17,7 @@ namespace Game2017.Animations
             _maxFramesX = 1;
             _maxFramesY = 1;
             _frameTime = 0.10f;
-            TextureName = TextureName.Player_Idle;
+            TextureName = Constants.Player_Idle;
             base.Initialize();
         }
 
@@ -38,7 +36,9 @@ namespace Game2017.Animations
             }
 
             if (InputManager.Instance.KeyboardState.IsKeyDown(Keys.A)
-                || InputManager.Instance.KeyboardState.IsKeyDown(Keys.D))
+                || InputManager.Instance.KeyboardState.IsKeyDown(Keys.D)
+                || InputManager.Instance.KeyboardState.IsKeyDown(Keys.W)
+                || InputManager.Instance.KeyboardState.IsKeyDown(Keys.S))
             {
                 return new Player_Run(invertX: InputManager.Instance.KeyboardState.IsKeyDown(Keys.A));
             }

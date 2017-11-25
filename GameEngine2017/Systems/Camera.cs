@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameEngine2017.Systems
+namespace GameEngine2017
 {
     public class Camera
     {
@@ -47,7 +47,7 @@ namespace GameEngine2017.Systems
 
         private Camera()
         {
-            Zoom = 1.0f;
+            Zoom = 2.2f;
             _position = new Vector2(0, 0);
         }
 

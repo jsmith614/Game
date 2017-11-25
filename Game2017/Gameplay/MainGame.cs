@@ -1,12 +1,8 @@
-﻿using Game2017.Objects;
-using Game2017.Systems;
-using GameEngine2017.Constants;
-using GameEngine2017.Systems;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
-using System;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game2017.Gameplay
+namespace Game2017
 {
     public class MainGame
     {
@@ -17,10 +13,8 @@ namespace Game2017.Gameplay
 
         public void Load()
         {
-            MessageHandler.Instance.AddMessage("Rawr");
             GameObjectFactory.Instance.CreateGameObject<Player>();
-            MessageHandler.Instance.AddMessage("Rawr 2", MessageType.Normal, 3000f);
-            MessageHandler.Instance.AddMessage("Rawr 3", MessageType.Normal, 4000f);
+            MapManager.Instance.ChangeMap(Constants.Map1);
         }
 
         public void Run(float deltaTime)

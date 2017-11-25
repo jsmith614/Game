@@ -1,9 +1,7 @@
-﻿using GameEngine2017.Constants;
-using GameEngine2017.Systems;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine2017.Objects
+namespace GameEngine2017
 {
     public class GameMessage
     {
@@ -33,7 +31,7 @@ namespace GameEngine2017.Objects
                 color = Color.Red;
             }
             
-            spriteBatch.DrawString(FontManager.Instance.GetFont(Font.Message), Text, position, color);
+            spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, Text, position, color);
         }
 
         internal void Update(float deltaTime)

@@ -1,7 +1,5 @@
-﻿using GameEngine2017.Interface;
-using GameEngine2017.Systems;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework.Input;
-using GameEngine2017.Constants;
 using Microsoft.Xna.Framework;
 
 namespace Game2017.Animations
@@ -23,7 +21,7 @@ namespace Game2017.Animations
             _maxFramesX = 1;
             _maxFramesY = 1;
             _frameTime = _maxFrameTime;
-            TextureName = TextureName.Player_Idle;
+            TextureName = Constants.Player_Idle;
             base.Initialize();
         }
 

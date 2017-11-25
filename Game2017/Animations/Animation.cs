@@ -1,9 +1,6 @@
-﻿using GameEngine2017.Interface;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using GameEngine2017.Systems;
-using System;
-using GameEngine2017.Constants;
 
 namespace Game2017.Animations
 {
@@ -16,7 +13,7 @@ namespace Game2017.Animations
         protected float _frameTime;
         public bool InvertX { get; set; }
         public bool InvertY { get; set; }
-        public TextureName TextureName { get; set; }
+        public string TextureName { get; set; }
         public Dictionary<int, float> KeyFrames { get; set; }
 
         public virtual void Initialize()

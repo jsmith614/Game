@@ -1,13 +1,8 @@
-﻿using Game2017.Objects;
-using GameEngine2017.Constants;
-using GameEngine2017.Interface;
-using GameEngine2017.Objects;
-using GameEngine2017.Systems;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System;
 
-namespace Game2017.Systems
+namespace Game2017
 {
     public class GameObjectFactory
     {
@@ -48,7 +43,7 @@ namespace Game2017.Systems
                 var type = typeof(T);
                 if (type == typeof(Player))
                 {
-                    gameObject = new Player(new Vector2(300, 200), 100, 100);
+                    gameObject = new Player(new Vector2(300, 200), textureName: Constants.Player_Idle);
                 }
                 else
                 {

@@ -1,62 +1,14 @@
-﻿using GameEngine2017.Systems;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Game2017MapEditor
 {
-    [Serializable]
-    public enum ShapeType
-    {
-        Circle,
-        Rectangle
-    }
-
-    [Serializable]
-    public class Shape
-    {
-        public int ID { get; set; }
-
-        public Vector2 Position { get; set; }
-
-        public float Width { get; set; }
-
-        public float Height { get; set; }
-
-        public float Radius { get; set; }
-
-        public ShapeType Type { get; set; }
-    }
-
-    [Serializable]
-    public class Handle
-    {
-        public Shape Shape { get; set; }
-
-        public float Radius { get; set; }
-
-        public Vector2 Position
-        {
-            get
-            {
-                if (Shape.Type == ShapeType.Circle)
-                {
-                    return new Vector2(Shape.Position.X + Shape.Radius, Shape.Position.Y);
-                }
-                else // if (Shape.Type == ShapeType.Rectangle)
-                {
-                    return new Vector2(Shape.Position.X + (Shape.Width ), Shape.Position.Y + (Shape.Height));
-                }
-            }
-        }
-    }
-
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -122,7 +74,7 @@ namespace Game2017MapEditor
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            FontManager.Instance.Load(Content);
+            FontManager.Instance.Load(Content, new List<string>() { "Message" });
             MessageHandler.Instance.Load(spriteBatch);
             Camera.Instance.Load(Window);
             InputManager.Instance.Load(spriteBatch);
@@ -440,18 +392,6 @@ namespace Game2017MapEditor
             return false;
         }
 
-        [Serializable]
-        public class IOObject
-        {
-            public int CurrentID { get; set; }
-
-            public string MapTextureName { get; set; }
-
-            //public List<Shape> Shapes { get; set; }
-
-            public List<Handle> Handles { get; set; }
-        }
-
         const string exportDirectory = "Exports";
         const string exportFilePath = "Exports/map.xml";
         const string tempexportFilePath = "Exports/map_temp.xml";
@@ -461,7 +401,7 @@ namespace Game2017MapEditor
         {
             MessageHandler.Instance.AddMessage("Export Begin");
 
-            var ioObject = new IOObject();
+            var ioObject = new MapIOObject();
             //ioObject.Shapes = Shapes;
             ioObject.Handles = Handles;
             ioObject.CurrentID = currentID;
@@ -536,21 +476,21 @@ namespace Game2017MapEditor
             }
         }
 
-        public static MemoryStream SerializeToStream(IOObject ioobject)
+        public static MemoryStream SerializeToStream(MapIOObject ioobject)
         {
             //BinaryFormatter
               // var ser = new DataContractSerializer();
             MemoryStream stream = new MemoryStream();
-            var formatter = new DataContractSerializer(typeof(IOObject));
+            var formatter = new DataContractSerializer(typeof(MapIOObject));
             formatter.WriteObject(stream, ioobject);
             return stream;
         }
 
-        public static IOObject DeserializeFromStream(MemoryStream stream)
+        public static MapIOObject DeserializeFromStream(MemoryStream stream)
         {
-            var formatter = new DataContractSerializer(typeof(IOObject));
+            var formatter = new DataContractSerializer(typeof(MapIOObject));
             stream.Seek(0, SeekOrigin.Begin);
-            var ioobject = formatter.ReadObject(stream) as IOObject;
+            var ioobject = formatter.ReadObject(stream) as MapIOObject;
             return ioobject;
         }
     }

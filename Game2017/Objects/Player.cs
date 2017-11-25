@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameEngine2017.Constants;
-using GameEngine2017.Interface;
+﻿using GameEngine2017;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Game2017.Animations;
-using GameEngine2017.Systems;
-using Microsoft.Xna.Framework.Input;
-using GameEngine2017.Utilities;
 
-namespace Game2017.Objects
+namespace Game2017
 {
     public class Player : GameObject
     {
-        public Player(Vector2 position, int width, int height)
+        public Player(Vector2 position, string textureName)
         {
-            Initialize(position, width, height);
+            Initialize(position, textureName);
         }
 
         public override void Update(float deltaTime)
@@ -33,17 +24,19 @@ namespace Game2017.Objects
             base.Draw(deltaTime, spriteBatch);
         }
 
-        public override void HandleEvent(EventName name, IGameObject Source)
+        public override void HandleEvent(string eventName, IGameObject Source)
         {
-            base.HandleEvent(name, Source);
+            base.HandleEvent(eventName, Source);
         }
 
-        public override void Initialize(Vector2 position, int width, int height)
+        public override void Initialize(Vector2 position, string textureName)
         {
             CurrentAnimation = new Player_Idle();
-            base.Initialize(position, width, height);
-            Type = ObjectType.Player;
-            MoveSpeed = 200.0f;
+            base.Initialize(position, textureName);
+            ObjectType = ObjectType.Player;
+            MoveSpeed = 100.0f;
+            Width = 25;
+            Height = 25;
         }
 
         public override void Load(ContentManager content)
