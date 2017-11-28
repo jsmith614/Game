@@ -68,7 +68,7 @@
 /processorParam:TextureFormat=Color
 /build:Player_Idle.png
 
-#begin map1.png
+#begin Maps/Level1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,5 +78,8 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:map1.png
+/build:Maps/Level1.png
+
+#begin Maps/Level1.xml
+/copy:Maps/Level1.xml
 

@@ -38,6 +38,7 @@ namespace GameEngine2017
             {
                 _fonts.Add(new GameFont(fontName, _content.Load<SpriteFont>(fontName)));
             }
+            DefaultFont = _fonts.FirstOrDefault();
         }
 
         public void Unload()

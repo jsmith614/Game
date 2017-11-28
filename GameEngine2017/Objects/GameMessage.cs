@@ -31,7 +31,7 @@ namespace GameEngine2017
                 color = Color.Red;
             }
             
-            spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, Text, position, color);
+            spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, Text, position, color, 0.0f, new Vector2(), 0.5f, SpriteEffects.None, 1f);
         }
 
         internal void Update(float deltaTime)

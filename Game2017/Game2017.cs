@@ -63,7 +63,9 @@ namespace Game2017
             }
             catch (Exception e)
             {
+                MessageHandler.Instance.AddError(e.Message);
                 MessageHandler.Instance.Dump(e);
+                throw e;
             }
 
         }
@@ -91,7 +93,9 @@ namespace Game2017
             }
             catch (Exception e)
             {
+                MessageHandler.Instance.AddError(e.Message);
                 MessageHandler.Instance.Dump(e);
+                throw e;
             }
         }
 
@@ -126,7 +130,9 @@ namespace Game2017
             }
             catch (Exception e)
             {
+                MessageHandler.Instance.AddError(e.Message);
                 MessageHandler.Instance.Dump(e);
+                throw e;
             }
         }
 
@@ -156,7 +162,9 @@ namespace Game2017
             }
             catch (Exception e)
             {
+                MessageHandler.Instance.AddError(e.Message);
                 MessageHandler.Instance.Dump(e);
+                throw e;
             }
         }
     }

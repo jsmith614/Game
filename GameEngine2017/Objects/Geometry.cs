@@ -25,6 +25,20 @@ namespace GameEngine2017
         public float Radius { get; set; }
 
         public ShapeType Type { get; set; }
+
+        public Rectangle GetRect()
+        {
+            Rectangle shapeRect;
+            if (Type == ShapeType.Rectangle)
+            {
+                shapeRect = new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
+            }
+            else
+            {
+                shapeRect = new Rectangle((int)(Position.X - Radius), (int)(Position.Y - Radius), (int)(Radius * 2), (int)(Radius * 2));
+            }
+            return shapeRect;
+        }
     }
 
     [Serializable]

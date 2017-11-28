@@ -154,11 +154,11 @@ namespace Game2017MapEditor
                 var deleteIds = new List<int>();
                 foreach(var shape in Shapes)
                 {
-                    if (shape.Type == ShapeType.Circle && PointInCircle(_mPos, shape.Position, shape.Radius))
+                    if (shape.Type == ShapeType.Circle && GameMath.PointInCircle(_mPos, shape.Position, shape.Radius))
                     {
                         deleteIds.Add(shape.ID);
                     }
-                    else if(shape.Type == ShapeType.Rectangle && PointInRect(_mPos, shape.Position, shape.Width, shape.Height))
+                    else if(shape.Type == ShapeType.Rectangle && GameMath.PointInRect(_mPos, shape.Position, shape.Width, shape.Height))
                     {
                         deleteIds.Add(shape.ID);
                     }
@@ -205,7 +205,7 @@ namespace Game2017MapEditor
             {
                 foreach (var handle in Handles)
                 {
-                    if (PointInCircle(_mPos, handle.Position, handle.Radius))
+                    if (GameMath.PointInCircle(_mPos, handle.Position, handle.Radius))
                     {
                         draggedHandle = handle;
                         break;
@@ -216,12 +216,12 @@ namespace Game2017MapEditor
             {
                 foreach (var shape in Shapes)
                 {
-                    if (shape.Type == ShapeType.Rectangle && PointInRect(_mPos, shape.Position, shape.Width, shape.Height))
+                    if (shape.Type == ShapeType.Rectangle && GameMath.PointInRect(_mPos, shape.Position, shape.Width, shape.Height))
                     {
                         draggedShape = shape;
                         break;
                     }
-                    else if (shape.Type == ShapeType.Circle && PointInCircle(_mPos, shape.Position, shape.Radius))
+                    else if (shape.Type == ShapeType.Circle && GameMath.PointInCircle(_mPos, shape.Position, shape.Radius))
                     {
                         draggedShape = shape;
                         break;
@@ -371,27 +371,6 @@ namespace Game2017MapEditor
             base.Draw(gameTime);
         }
 
-        private bool PointInCircle(Vector2 point, Vector2 circle, float radius)
-        {
-            var dx = Math.Abs(point.X - circle.X);
-            var dy = Math.Abs(point.Y - circle.Y);
-
-            return ((dx + dy) <= radius);
-        }
-
-        private bool PointInRect(Vector2 point, Vector2 rect, float width, float height)
-        {
-            if (point.X > rect.X &&
-                point.X < (rect.X + width) && 
-                point.Y > rect.Y && 
-                point.Y < (rect.Y + height))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         const string exportDirectory = "Exports";
         const string exportFilePath = "Exports/map.xml";
         const string tempexportFilePath = "Exports/map_temp.xml";
@@ -416,7 +395,7 @@ namespace Game2017MapEditor
 
             var fileStream = new FileStream(tempexportFilePath, FileMode.OpenOrCreate);
 
-            var stream = SerializeToStream(ioObject);
+            var stream = Utility.SerializeToStream(ioObject);
 
             stream.Seek(0, SeekOrigin.Begin);
             stream.CopyTo(fileStream);
@@ -451,19 +430,15 @@ namespace Game2017MapEditor
 
             if(stream.Length > 0)
             {
-                var ioObject = DeserializeFromStream(stream);
-
-                //Shapes = ioObject.Shapes;
+                var ioObject = Utility.DeserializeFromStream(stream);
+                
                 Shapes = new List<Shape>();
                 Handles = ioObject.Handles;
                 foreach(var handle in Handles)
                 {
                     Shapes.Add(handle.Shape);
                 }
-                //foreach(var handle in Handles)
-                //{
-                //    handle.Shape = Shapes.First(s => s.ID == handle.Shape.ID);
-                //}
+
                 currentID = ioObject.CurrentID;
                 _map = Content.Load<Texture2D>(ioObject.MapTextureName);
                 Camera.Instance.Position = new Vector2(_map.Width * 0.5f, _map.Height * 0.5f);
@@ -473,25 +448,9 @@ namespace Game2017MapEditor
             else
             {
                 MessageHandler.Instance.AddError("Import Fail!");
+                _map = Content.Load<Texture2D>("Map1");
+                Camera.Instance.Position = new Vector2(_map.Width * 0.5f, _map.Height * 0.5f);
             }
-        }
-
-        public static MemoryStream SerializeToStream(MapIOObject ioobject)
-        {
-            //BinaryFormatter
-              // var ser = new DataContractSerializer();
-            MemoryStream stream = new MemoryStream();
-            var formatter = new DataContractSerializer(typeof(MapIOObject));
-            formatter.WriteObject(stream, ioobject);
-            return stream;
-        }
-
-        public static MapIOObject DeserializeFromStream(MemoryStream stream)
-        {
-            var formatter = new DataContractSerializer(typeof(MapIOObject));
-            stream.Seek(0, SeekOrigin.Begin);
-            var ioobject = formatter.ReadObject(stream) as MapIOObject;
-            return ioobject;
         }
     }
 }

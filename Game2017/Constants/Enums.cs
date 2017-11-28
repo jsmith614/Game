@@ -8,7 +8,8 @@
 
     public enum GameEvent
     {
-        Test
+        Test,
+        MapCollision
     }
 
     public enum ObjectType

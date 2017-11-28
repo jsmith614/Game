@@ -20,6 +20,7 @@
         
         public float DefaultMessageLifeTime = 2.00f;
         public float Gravity = 25.0f;
+        public string MapDirectory = @"Maps\";
 
         public void Load()
         {

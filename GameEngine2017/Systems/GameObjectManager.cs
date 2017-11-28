@@ -20,6 +20,8 @@ namespace GameEngine2017
             }
         }
 
+        public List<IGameObject> GameObjects { get { return _gameObjects; } set { _gameObjects = value; } }
+
         private GameObjectManager()
         {
             _gameObjects = new List<IGameObject>();

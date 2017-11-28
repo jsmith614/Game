@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace GameEngine2017
 {
@@ -29,6 +31,22 @@ namespace GameEngine2017
         public static List<string> GetEnumNameList<T>()
         {
             return Enum.GetValues(typeof(T)).Cast<T>().Select(t => t.ToString()).ToList();
+        }
+
+        public static MemoryStream SerializeToStream(MapIOObject ioobject)
+        {
+            MemoryStream stream = new MemoryStream();
+            var formatter = new DataContractSerializer(typeof(MapIOObject));
+            formatter.WriteObject(stream, ioobject);
+            return stream;
+        }
+
+        public static MapIOObject DeserializeFromStream(MemoryStream stream)
+        {
+            var formatter = new DataContractSerializer(typeof(MapIOObject));
+            stream.Seek(0, SeekOrigin.Begin);
+            var ioobject = formatter.ReadObject(stream) as MapIOObject;
+            return ioobject;
         }
     }
 }
