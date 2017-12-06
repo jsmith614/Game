@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using RectangleFLib;
 using System;
 using System.Collections.Generic;
 
@@ -26,16 +27,16 @@ namespace GameEngine2017
 
         public ShapeType Type { get; set; }
 
-        public Rectangle GetRect()
+        public RectangleF GetRect()
         {
-            Rectangle shapeRect;
+            RectangleF shapeRect;
             if (Type == ShapeType.Rectangle)
             {
-                shapeRect = new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
+                shapeRect = new RectangleF(Position.X, Position.Y, Width, Height);
             }
             else
             {
-                shapeRect = new Rectangle((int)(Position.X - Radius), (int)(Position.Y - Radius), (int)(Radius * 2), (int)(Radius * 2));
+                shapeRect = new RectangleF((Position.X - Radius), (Position.Y - Radius), (Radius * 2), (Radius * 2));
             }
             return shapeRect;
         }

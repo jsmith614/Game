@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,6 +49,22 @@ namespace GameEngine2017
             stream.Seek(0, SeekOrigin.Begin);
             var ioobject = formatter.ReadObject(stream) as MapIOObject;
             return ioobject;
+        }
+
+        public static List<VertexPositionNormalTexture> GetVertsForBoundingBox(Vector2 position, float width, float height)
+        {
+            var verts = new List<VertexPositionNormalTexture>();
+
+            //var rect = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height);
+            
+            //verts.Add(new VertexPositionNormalTexture(new Vector2(rect.Top, rect.Left), Vector2.Normalize(new Vector2(rect.Top, rect.Left)),);
+            //verts.Add(new VertexPositionNormalTexture(rect.Top, rect.Right));
+            //verts.Add(new VertexPositionNormalTexture(rect.Bottom, rect.Right));
+            //verts.Add(new VertexPositionNormalTexture(rect.Top, rect.Left));
+            //verts.Add(new VertexPositionNormalTexture(rect.Bottom, rect.Left));
+            //verts.Add(new VertexPositionNormalTexture(rect.Bottom, rect.Right));
+
+            return verts;
         }
     }
 }

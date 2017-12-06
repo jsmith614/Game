@@ -16,7 +16,7 @@ namespace Game2017
         List<GameObject> _gameObjects;
         MainGame mainGame;
         float _deltaTime;
-        
+
         public Game2017()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -59,7 +59,7 @@ namespace Game2017
                 Camera.Instance.Load(Window);
                 MapManager.Instance.Load(_spriteBatch);
 
-                mainGame.Load();
+                mainGame.Load(_spriteBatch);
             }
             catch (Exception e)
             {
@@ -159,6 +159,7 @@ namespace Game2017
                 InputManager.Instance.Draw(gameTime, this.Window, _deltaTime);
 
                 _spriteBatch.End();
+
             }
             catch (Exception e)
             {
