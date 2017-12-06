@@ -50,12 +50,15 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Constants\Enums.cs" />
     <Compile Include="Game2017.cs" />
-    <Compile Include="Gameplay\MainGame.cs" />
+    <Compile Include="Gameplay\MainGameScene.cs" />
+    <Compile Include="Gameplay\MainMenuScene.cs" />
+    <Compile Include="Gameplay\Scene.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\GameObjectFactory.cs" />
+    <Compile Include="Systems\SceneManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.5.0.1678, Culture=neutral, processorArchitecture=MSIL">

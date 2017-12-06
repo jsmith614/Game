@@ -2,18 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RectangleFLib;
-using System;
 using System.Collections.Generic;
 
 namespace Game2017
 {
-    public class MainGame
+    public class MainGameScene : IScene
     {
         Texture2D _pixel;
 
         List<Vector2> _stuffToDraw;
 
-        public MainGame()
+        public MainGameScene()
         {
 
         }
@@ -65,32 +64,7 @@ namespace Game2017
                         // Maybe fire event and let individual objects handle it? idk.
                         // EventManager.Instance.FireEvent(shape, GameEvent.MapCollision);
 
-
-
-                        //var intersect = Rectangle.Intersect(objRect, shapeRect);
-
-                        //var halfShapeWidth = shape.Width * 0.5f;
-                        //var halfShapeHeight = shape.Height * 0.5f;
-                        //var halfObjWidth = obj.Width * 0.5f;
-                        //var halfObjHeight = obj.Height * 0.5f;
-
-                        //var shapeCenter = new Vector2(shape.Position.X + (halfShapeWidth), shape.Position.Y + (halfShapeHeight));
-                        //var objCenter = new Vector2(obj.Position.X + (halfObjWidth), obj.Position.Y + (halfObjHeight));
-
-
-                        //var reverse = objCenter - shapeCenter;
-                        //var idealDistance = new Vector2(intersect.Width * (reverse.X < 0 ? -1 : 1) , intersect.Height * (reverse.Y < 0 ? -1 : 1));
-                        ////reverse.Normalize();
-                        ////reverse = reverse * idealDistance;
-                        //var newPos = objCenter + (idealDistance * (Vector2.Normalize(obj.Velocity)));
-
-                        //newPos = new Vector2(newPos.X - (halfObjWidth), newPos.Y - (halfObjHeight));
-
-                        //obj.Position = new Vector2(newPos.X, newPos.Y);
-                        //break;
-
-
-
+                        //TODO: implement better collision reaction here:
 
                         // var halfShapeWidth = shape.Width * 0.5f;
                         // var halfShapeHeight = shape.Height * 0.5f;
@@ -115,8 +89,7 @@ namespace Game2017
 
                         // obj.Position = new Vector2(newPos.X, newPos.Y);
 
-
-
+                        
                         var velocity = (obj.Velocity * deltaTime);
 
                         var Ycol = new RectangleF(obj.Position.X, (obj.Position.Y - velocity.Y), obj.Width, obj.Height);
@@ -141,33 +114,6 @@ namespace Game2017
                         }
                         
                         obj.Position = new Vector2(newX, newY);
-
-
-                        
-
-                        //var objY = obj.Position.Y;
-                        //var objX = obj.Position.X;
-
-                        //if (objRect.Top > shapeRect.Bottom) //Hit From Top
-                        //{
-                        //    objY += Rectangle.Intersect(objRect, shapeRect).Height;
-                        //}
-                        //if (objRect.Bottom > shapeRect.Top) //Hit From Bottom
-                        //{
-                        //    objY -= Rectangle.Intersect(objRect, shapeRect).Height;
-                        //}
-
-                        //if (objRect.Left > shapeRect.Right)
-                        //{
-                        //    objX += Rectangle.Intersect(objRect, shapeRect).Width;
-                        //}
-                        //if (objRect.Right > shapeRect.Left)
-                        //{
-                        //    objX -= Rectangle.Intersect(objRect, shapeRect).Width;
-                        //}
-
-                        //obj.Position = new Vector2(objX, objY);
-                        //break;
                     }
                 }
             }
@@ -178,7 +124,7 @@ namespace Game2017
 
         }
 
-        internal void Draw(float deltaTime, GameWindow window, SpriteBatch spriteBatch)
+        public void Draw(float deltaTime, GameWindow window, SpriteBatch spriteBatch)
         {
             // Background
             //spriteBatch.Draw()

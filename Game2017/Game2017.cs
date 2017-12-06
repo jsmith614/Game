@@ -14,7 +14,7 @@ namespace Game2017
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         List<GameObject> _gameObjects;
-        MainGame mainGame;
+        MainGameScene mainGame;
         float _deltaTime;
 
         public Game2017()
@@ -22,7 +22,7 @@ namespace Game2017
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _gameObjects = new List<GameObject>();
-            mainGame = new MainGame();
+            mainGame = new MainGameScene();
         }
 
         /// <summary>
