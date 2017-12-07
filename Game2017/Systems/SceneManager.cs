@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Game2017.Systems
+namespace Game2017
 {
     public class SceneManager
     {
+        private SpriteBatch _spriteBatch;
         private static SceneManager _instance;
         public static SceneManager Instance
         {
@@ -24,17 +25,22 @@ namespace Game2017.Systems
 
         private SceneManager()
         {
-
+            Scenes = new Stack<IScene>();
         }
 
-        public void Load()
+        public void Load(SpriteBatch spriteBatch)
         {
-
+            Scenes.Clear();
+            _spriteBatch = spriteBatch;
         }
 
         public void Unload()
         {
-
+            while (Scenes.Any())
+            {
+                Pop();
+            }
+            Scenes.Clear();
         }
 
         public void Run(float deltaTime)
@@ -45,22 +51,27 @@ namespace Game2017.Systems
             }
         }
 
-        public void Draw(float deltaTime, GameWindow gameWindow, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, float deltaTime, GameWindow gameWindow)
         {
             if (Scenes.Any())
             {
-                Scenes.Peek().Draw(deltaTime, gameWindow, spriteBatch);
+                Scenes.Peek().Draw(gameTime, gameWindow, _spriteBatch);
             }
         }
 
         public void Push(IScene scene)
         {
+            scene.Load(_spriteBatch);
             Scenes.Push(scene);
         }
 
         public void Pop()
         {
-            Scenes.Pop();
+            if (Scenes.Any())
+            {
+                var scene = Scenes.Pop();
+                scene.Unload();
+            }
         }
     }
 }

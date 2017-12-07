@@ -127,31 +127,7 @@ namespace GameEngine2017
 
         public void Draw(GameTime gameTime, GameWindow gameWindow, float _deltaTime)
         {
-            if (_debugMode)
-            {
-                var debugColor = Color.Purple;
 
-                // FPS
-                var fps = Convert.ToInt32(1 / gameTime.ElapsedGameTime.TotalSeconds);
-                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, 
-                    "FPS: " + fps.ToString(), 
-                    new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top - 20), debugColor);
-
-                // Inpute Queue
-                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, 
-                    "Input: " + string.Join(" ", _inputQueue), 
-                    new Vector2(gameWindow.ClientBounds.Right - 200, gameWindow.ClientBounds.Top), debugColor);
-
-                // Zoom Level
-                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont,
-                    "Zoom: " + Camera.Instance.Zoom,
-                    new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top + 20f), debugColor);
-
-                // Zoom Level
-                _spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont,
-                    "DT: " + _deltaTime,
-                    new Vector2(gameWindow.ClientBounds.Right - 80, gameWindow.ClientBounds.Top + 40f), debugColor);
-            }
         }
 
         public bool IsAlpha(Keys key)

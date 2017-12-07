@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RectangleFLib;
+using System;
 using System.Collections.Generic;
 
 namespace Game2017
@@ -23,8 +24,7 @@ namespace Game2017
             MapManager.Instance.ChangeMap(Constants.Map1);
 
             // debug wireframe
-
-
+            
             _pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             Color[] colourData = new Color[1];
             colourData[0] = Color.White;
@@ -38,7 +38,8 @@ namespace Game2017
             _stuffToDraw.Clear();
 
             Camera.Instance.Update(deltaTime);
-            var cameraRect = new RectangleF(Camera.Instance.Position.X, Camera.Instance.Position.Y, Camera.Instance.Width, Camera.Instance.Height);
+            var cameraPosition = Camera.Instance.GetTransformPosition(0,0);
+            var cameraRect = new RectangleF(cameraPosition.X, cameraPosition.Y, Camera.Instance.Width / Camera.Instance.Zoom, Camera.Instance.Height / Camera.Instance.Zoom);
 
             // get map geometry within view of camera
             var visibleMapGeometry = new List<Shape>();
@@ -57,6 +58,7 @@ namespace Game2017
                 foreach(var shape in visibleMapGeometry)
                 {
                     var shapeRect = shape.GetRect();
+
                     // Detect collision with Intersects()
                     if (objRect.Intersects(shapeRect))
                     {
@@ -124,18 +126,20 @@ namespace Game2017
 
         }
 
-        public void Draw(float deltaTime, GameWindow window, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, GameWindow window, SpriteBatch spriteBatch)
         {
             // Background
-            //spriteBatch.Draw()
-
+            
             if (InputManager.Instance.DebugMode)
             {
-                //var oldstate = spriteBatch.GraphicsDevice.RasterizerState;
+                // FPS
+                var position = Camera.Instance.GetTransformPosition(Camera.Instance.Width, 20);
+                var fps = Convert.ToInt32(1 / gameTime.ElapsedGameTime.TotalSeconds);
+                MessageHandler.Instance.DrawString(spriteBatch, "FPS: " + fps, position, Color.White);
 
-                //RasterizerState state = new RasterizerState();
-                //state.FillMode = FillMode.WireFrame;
-                //spriteBatch.GraphicsDevice.RasterizerState = state;
+                // Zoom Level
+                position = Camera.Instance.GetTransformPosition(Camera.Instance.Width, 50);
+                MessageHandler.Instance.DrawString(spriteBatch, "Zoom: " + Camera.Instance.Zoom, position, Color.White);
 
                 foreach (var shape in MapManager.Instance.MapGeometry)
                 {
@@ -164,14 +168,11 @@ namespace Game2017
 
                     //var verts = Utility.GetVertsForBoundingBox(obj.Position, obj.Width, obj.Height);
                 }
-
-
+                
                 foreach(var thing in _stuffToDraw)
                 {
                     DrawRectangle(spriteBatch, new Rectangle((int)thing.X, (int)thing.Y, 5, 5), Color.Yellow);
                 }
-
-                //spriteBatch.GraphicsDevice.RasterizerState = oldstate;
             }
         }
 

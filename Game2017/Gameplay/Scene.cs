@@ -7,7 +7,7 @@ namespace Game2017
     {
         void Load(SpriteBatch spriteBatch);
         void Run(float deltaTime);
-        void Draw(float deltaTime, GameWindow window, SpriteBatch spriteBatch);
+        void Draw(GameTime gameTime, GameWindow window, SpriteBatch spriteBatch);
         void Unload();
     }
 }

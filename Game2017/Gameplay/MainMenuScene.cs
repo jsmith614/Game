@@ -20,7 +20,7 @@ namespace Game2017.Gameplay
             throw new System.NotImplementedException();
         }
 
-        public void Draw(float deltaTime, GameWindow window, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, GameWindow window, SpriteBatch spriteBatch)
         {
             throw new System.NotImplementedException();
         }

@@ -80,8 +80,7 @@ namespace GameEngine2017
 
         public void Draw()
         {
-            var position = new Vector2(5, 5); // probably change this or have it passed in
-            position = Vector2.Transform(position, Matrix.Invert(Camera.Instance.TranslationMatrix));
+            var position = Camera.Instance.GetTransformPosition(5, 5);
 
             _messages.ForEach(m =>
             {
@@ -141,6 +140,11 @@ namespace GameEngine2017
                     file.WriteLine();
                 }
             }
+        }
+
+        public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color)
+        {
+            spriteBatch.DrawString(FontManager.Instance.DefaultFont.SpriteFont, text, position, color, 0.0f, new Vector2(), 0.5f, SpriteEffects.None, 1f);
         }
     }
 }

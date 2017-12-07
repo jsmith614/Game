@@ -14,7 +14,7 @@ namespace Game2017
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         List<GameObject> _gameObjects;
-        MainGameScene mainGame;
+        //MainGameScene mainGame;
         float _deltaTime;
 
         public Game2017()
@@ -22,7 +22,7 @@ namespace Game2017
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _gameObjects = new List<GameObject>();
-            mainGame = new MainGameScene();
+            //mainGame = new MainGameScene();
         }
 
         /// <summary>
@@ -58,8 +58,9 @@ namespace Game2017
                 InputManager.Instance.Load(_spriteBatch);
                 Camera.Instance.Load(Window);
                 MapManager.Instance.Load(_spriteBatch);
-
-                mainGame.Load(_spriteBatch);
+                SceneManager.Instance.Load(_spriteBatch);
+                
+                SceneManager.Instance.Push(new MainGameScene());
             }
             catch (Exception e)
             {
@@ -78,7 +79,7 @@ namespace Game2017
         {
             try
             {
-                mainGame.Unload();
+                SceneManager.Instance.Unload();
 
                 MapManager.Instance.Unload();
                 Camera.Instance.Unload();
@@ -123,7 +124,7 @@ namespace Game2017
                 MessageHandler.Instance.UpdateMessages(_deltaTime);
                 GameObjectManager.Instance.Update(_deltaTime);
 
-                mainGame.Run(_deltaTime);
+                SceneManager.Instance.Run(_deltaTime);
 
                 // This must be called after everything that uses input manager. Just keep it at the bottom.
                 InputManager.Instance.UpdateOldInputStates();
@@ -153,7 +154,7 @@ namespace Game2017
                 //var deltaTime = (float)gameTime.ElapsedGameTime.Milliseconds;
 
                 MapManager.Instance.Draw(Window);
-                mainGame.Draw(_deltaTime, this.Window, _spriteBatch);
+                SceneManager.Instance.Draw(gameTime, _deltaTime, this.Window);
                 GameObjectManager.Instance.Draw(_deltaTime);
                 MessageHandler.Instance.Draw();
                 InputManager.Instance.Draw(gameTime, this.Window, _deltaTime);

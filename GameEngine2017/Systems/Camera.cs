@@ -74,6 +74,13 @@ namespace GameEngine2017
             HandleInput(deltaTime);
         }
 
+        public Vector2 GetTransformPosition(float x, float y)
+        {
+            var position = new Vector2(x, y);
+            position = Vector2.Transform(position, Matrix.Invert(TranslationMatrix));
+            return position;
+        }
+
         private void HandleInput(float deltaTime)
         {
             var input = InputManager.Instance;
